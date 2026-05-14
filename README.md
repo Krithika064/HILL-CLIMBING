@@ -1,61 +1,91 @@
-<h1>ExpNo 5 : Implement Simple Hill Climbing Algorithm</h1> 
-<h3>Name:             </h3>
-<h3>Register Number:             </h3>
-<H3>Aim:</H3>
-<p>Implement Simple Hill Climbing Algorithm and Generate a String by Mutating a Single Character at each iteration </p>
-<h2> Theory: </h2>
-<p>Hill climbing is a variant of Generate and test in which feedback from test procedure is used to help the generator decide which direction to move in search space.
-Feedback is provided in terms of heuristic function
-</p>
+# ExpNo 5 : Implement Simple Hill Climbing Algorithm
+# Name: KRITHIKA SHERIN A.O
+# Register Number: 212224060129
+# Aim:
 
+Implement Simple Hill Climbing Algorithm and Generate a String by Mutating a Single Character at each iteration
+Theory:
 
-<h2>Algorithm:</h2>
-<p>
-<ol>
- <li> Evaluate the initial state.If it is a goal state then return it and quit. Otherwise, continue with initial state as current state.</li> 
-<li>Loop until a solution is found or there are no new operators left to be applied in current state:
-<ul><li>Select an operator that has not yet been applied to the current state and apply it to produce a new state</li>
-<li>Evaluate the new state:
-  <ul>
-<li>if it is a goal state, then return it and quit</li>
-<li>if it is not a goal state but better than current state then make new state as current state</li>
-<li>if it is not better than current state then continue in the loop</li>
-    </ul>
-</li>
-</ul>
-</li>
-</ol>
+Hill climbing is a variant of Generate and test in which feedback from test procedure is used to help the generator decide which direction to move in search space. Feedback is provided in terms of heuristic function
+ 
+# Algorithm:
+```
+    Evaluate the initial state.If it is a goal state then return it and quit. Otherwise, continue with initial state as current state.
+    Loop until a solution is found or there are no new operators left to be applied in current state:
+        Select an operator that has not yet been applied to the current state and apply it to produce a new state
+        Evaluate the new state:
+            if it is a goal state, then return it and quit
+            if it is not a goal state but better than current state then make new state as current state
+            if it is not better than current state then continue in the loop
+```
+# Steps Applied:
+Step-1
 
-</p>
-<hr>
-<h3> Steps Applied:</h3>
-<h3>Step-1</h3>
-<p> Generate Random String of the length equal to the given String</p>
-<h3>Step-2</h3>
-<p>Mutate the randomized string each character at a time</p>
-<h3>Step-3</h3>
-<p> Evaluate the fitness function or Heuristic Function</p>
-<h3>Step-4:</h3>
-<p> Lopp Step -2 and Step-3  until we achieve the score to be Zero to achieve Global Minima.</p>
+Generate Random String of the length equal to the given String
+Step-2
 
-<hr>
-<h2>Sample Input and Output</h2>
-<h2>Sample String:</h2> Artificial Intelligence
-<h2>Output:</h2>
-Score: 643  Solution :  8RzF:oG ]%;CPORRMe!zGvk<br>
-Score: 609  Solution :  8RzF:oG ]%;CPqRRMe!zGvk<br>
-Score: 604  Solution :  8RzF:oG ]%;CPqRRMe!zGqk<br>
-Score: 594  Solution :  8RzF:oG ]%;CPqRRWe!zGqk<br>
-Score: 551  Solution :  8RzF:oGK]%;CPqRRWe!zGqk<br>
-Score: 551  Solution :  8RzF:oGK]%;CPqRRWe!zGqk<br>
-Score: 551  Solution :  8RzF:oGK]%;CPqRRWe!zGqk<br>
-Score: 551  Solution :  8RzF:oGK]%;CPqRRWe!zGqk<br>
-Score: 551  Solution :  8RzF:oGK]%;CPqRRWe!zGqk<br>
-....................................................<br>
-..................................................<br>
-................................................<br>
-Score: 1  Solution :  Artificial Intelligencf<br>
-Score: 1  Solution :  Artificial Intelligencf<br>
-Score: 1  Solution :  Artificial Intelligencf<br>
-Score: 1  Solution :  Artificial Intelligencf<br>
-Score: 0  Solution :  Artificial Intelligence<br>
+Mutate the randomized string each character at a time
+Step-3
+
+Evaluate the fitness function or Heuristic Function
+Step-4:
+
+Lopp Step -2 and Step-3 until we achieve the score to be Zero to achieve Global Minima.
+
+# PROGRAM
+```
+import random
+import string
+
+def fitness(candidate, target):
+    return sum(abs(ord(candidate[i]) - ord(target[i])) for i in range(len(target)))
+
+def mutate(parent):
+    idx = random.randrange(len(parent))
+    new_char = random.choice(string.printable[:95])
+    return parent[:idx] + new_char + parent[idx + 1:]
+
+def hill_climb(target):
+    current = ''.join(random.choice(string.printable[:95]) for _ in range(len(target)))
+    current_score = fitness(current, target)
+    while True:
+        neighbor = mutate(current)
+        neighbor_score = fitness(neighbor, target)
+        if neighbor_score <= current_score:
+            current, current_score = neighbor, neighbor_score
+            print(f"Score: {current_score} Solution : {current}")
+        if current_score == 0:
+            break
+    return current
+
+target_string = "Artificial Intelligence"
+solution = hill_climb(target_string)
+print("\nFinal Solution:", solution)
+```
+
+# Sample Input and Output
+# Sample String:
+Artificial Intelligence
+Sample Output:
+Score: 643 Solution : 8RzF:oG ]%;CPORRMe!zGvk
+Score: 609 Solution : 8RzF:oG ]%;CPqRRMe!zGvk
+Score: 604 Solution : 8RzF:oG ]%;CPqRRMe!zGqk
+Score: 594 Solution : 8RzF:oG ]%;CPqRRWe!zGqk
+Score: 551 Solution : 8RzF:oGK]%;CPqRRWe!zGqk
+Score: 551 Solution : 8RzF:oGK]%;CPqRRWe!zGqk
+Score: 551 Solution : 8RzF:oGK]%;CPqRRWe!zGqk
+Score: 551 Solution : 8RzF:oGK]%;CPqRRWe!zGqk
+Score: 551 Solution : 8RzF:oGK]%;CPqRRWe!zGqk
+....................................................
+..................................................
+................................................
+Score: 1 Solution : Artificial Intelligencf
+Score: 1 Solution : Artificial Intelligencf
+Score: 1 Solution : Artificial Intelligencf
+Score: 1 Solution : Artificial Intelligencf
+Score: 0 Solution : Artificial Intelligence
+# OUTPUT
+<img width="440" height="509" alt="image" src="https://github.com/user-attachments/assets/9cf0e73e-1eaa-4d27-a092-184dc047fb18" />
+
+# Result :
+Thus, the Simple Hill Climbing Algorithm was implemented and a string was generated by mutating a single character at each iteration successfully. 
